@@ -30,8 +30,6 @@ router.post("/sign_up_user",
         /*  request.flash('message', errors[0]);
 		response.redirect('/sign_up_user'); */
         console.log('erros:', errors);
-        request.flash('unsuccessfull', 'Sample Data Updated');
-		response.redirect('/sign_up_user');
 /*         console.log(response.sendStatus(400)) 
  */       //return response.status(400).json({ errors: errors.array() });
     }else{
@@ -53,7 +51,6 @@ router.post("/sign_up_user",
             if(error){
                 throw error;
             }else{
-                response.send("<script>alert(\"Usuario Registrado en Rockit!!\"); window.location.href = \"../singup.html\"; </script>");
                 console.log(response.sendStatus(200)) 
             }
     	});
