@@ -1,61 +1,41 @@
-/*const express = require('express');
-const app = express();
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
 
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
 
+var app = express();
 
-app.get('/', (req, res)=>{
-    res.send('HOLA MUNDO');
-})
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
-app.listen(3000, (req, res)=>{
-    console.log('SERVER RUNNING IN http://localhost:3000');
-})*/
+app.use(logger('start')); //dev
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
-var mysql = require('mysql');
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
 
-var conexion = mysql.createConnection({
-    host: 'localhost',
-    database: 'rockit',
-    user: 'root',
-    password: '123proyecto!WEB'
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
 });
 
-conexion.connect(function(error){
-    if(error){
-        throw error;
-    }else{
-        console.log('CONEXION EXITOSA');
-    }
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
 });
 
-
-//SELECT
-conexion.query('SELECT * from productos', function(error, results, fields){
-    if(error)
-    throw error;
-
-    results.forEach(result => {
-        console.log(result);
-    });
-});
-
-//INSERT
-/*conexion.query('INSERT INTO productos (album, artista, descripcion, genero, cantidad, precio) VALUES ("Proof", "BTS", "Este album es una antologia que encarnara la historio de BTS", "K-pop", 10, 1860)', function(error, results){
-    if(error) throw error;
-    console.log('Registro Agregado', results);
-});*/
-
-//UPDATE
-conexion.query('UPDATE productos SET album = "K.O.", artista = "Danna Paola", descripcion = "K.O. contiene un total de 11 tracks tanto en español como en ingles", genero = "Pop", cantidad = 7, precio = 150 WHERE idproductos=1', function(error, results){
-    if(error) throw error;
-    console.log('Registro Actualizado', results);
-});
-
-//ELIMINAR
-/*
-conexion.query('DELETE FROM productos WHERE idproductos=2', function(error, results){
-    if(error) throw error;
-    console.log('Registro Eliminado', results);
-});*/
-
-conexion.end();
+module.exports = app;

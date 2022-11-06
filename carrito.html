@@ -241,7 +241,6 @@
 		                        </div>
 		                      </div>
 		
-		
 		                    <hr class="my-4">
 		
 		                    <div class="d-flex justify-content-between">
@@ -261,23 +260,20 @@
 		
 		                    <button type="submit" id="CheckoutButton" class="btn btn-info btn-block btn-lg">
 		                      <div class="d-flex justify-content-between">
+								<a href="signup.html">
 		                        Checkout <i class="fas fa-long-arrow-alt-right ms-2"></i>
+								</a>
 		                      </div>
 		                    </button>
 
 							<div id="msg">
 								<pre></pre>
 			
-
 	                    </form>
-		
 		                  </div>
 		                </div>
-		
 		              </div>
-		
 		            </div>
-		
 		          </div>
 		        </div>
 		      </div>
@@ -285,8 +281,6 @@
 		  </div>
 		</section>
 
-		
-  
 <script>
 	let registrosTarjetas = [];
   
@@ -308,9 +302,10 @@
   
 	  localStorage.setItem('SignUp registros', JSON.stringify(registrosTarjetas) );
 	  }
-	  document.addEventListener('DOMContentLoaded', ()=>{
-			document.getElementById('CheckoutButton').addEventListener('click', FunctionAddRegisters);
-		});
+	  /* document.addEventListener('DOMContentLoaded', ()=>{
+			do cument.getElementById('CheckoutButton').addEventListener('click', FunctionAddRegisters);
+		}
+		);*/
   
 	  /* document.getElementById("demo").innerHTML = typeName + " " + email + " " + password;
 	  fetch('http://localhost:5100', {
@@ -319,7 +314,7 @@
 	  }).then(res => res.json()) */
   
   </script>
-        
+
         <!-- Footer-->
         <section class="footer-dark">
             <div class="container">
@@ -366,6 +361,5 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
-        
     </body>
 </html>
