@@ -14,6 +14,8 @@
         <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif&family=Roboto:wght@300&family=Zen+Kaku+Gothic+New&display=swap" rel="stylesheet">
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
+        <script src="app.js"></script>
+
     </head>
     <body>
         <!-- Navigation-->
@@ -37,9 +39,11 @@
                     </ul>
                     <form class="d-flex">
                         <button class="btn btn-outline-dark" type="submit">
-                            <i class="bi-cart-fill me-1"></i>
-                            Carrito
-                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                            <a href="carrito.html">
+                                <i class="bi-cart-fill me-1"></i>
+                                Carrito
+                                <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                            </a>
                         </button>
                     </form>
                 </div>
@@ -305,7 +309,7 @@
                     <div class="row py-5">
                         <div class="col-2">
                             <h5>Address</h5>
-                            <p>Tijuan BC</p>
+                            <p>Tijuana BC</p>
                         </div>
                         <div class="col-2">
                             <h5>Contacts</h5>
@@ -322,8 +326,8 @@
                                 <p>Monthly digest of whats new and exciting from us.</p>
                                 <div class="d-flex w-100 gap-2">
                                     <label for="newsletter1" class="visually-hidden">Email address</label>
-                                    <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
-                                    <button class="btn btn-primary" type="button">Subscribe</button>
+                                    <input id="newsletter1" type="email" class="form-control" placeholder="Email address" required>
+                                    <button class="btn btn-primary" type="submit">Subscribe</button>
                                   </div>
                             </form>
                         </div>

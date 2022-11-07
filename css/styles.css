@@ -119,6 +119,8 @@ h1, .h1 {
 
 h2, .h2 {
   font-size: calc(1.325rem + 0.9vw);
+  font-family: 'Roboto', sans-serif;
+
 }
 @media (min-width: 1200px) {
   h2, .h2 {
@@ -128,6 +130,9 @@ h2, .h2 {
 
 h3, .h3 {
   font-size: calc(1.3rem + 0.6vw);
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-weight:bold;
+
 }
 @media (min-width: 1200px) {
   h3, .h3 {
@@ -155,6 +160,7 @@ h6, .h6 {
 p {
   margin-top: 0;
   margin-bottom: 1rem;
+  font-family: 'Zen Kaku Gothic New', sans-serif;
 }
 
 abbr[title],
@@ -331,6 +337,8 @@ th {
 
 label {
   display: inline-block;
+  font-family: 'Roboto', sans-serif;
+
 }
 
 button {
@@ -11320,3 +11328,4 @@ textarea.form-control-lg {
   color: black;
 background-color: white;
 }
+
