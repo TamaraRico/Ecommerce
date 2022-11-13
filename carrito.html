@@ -18,6 +18,8 @@
         <link href="css/carrito.css" rel="stylesheet" />
         <!-- Icons -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
+		<script type = "text/javascript" src = "./routes/errores.js js"></script>
     </head>
     <body>
         <!-- Navigation-->
@@ -203,17 +205,20 @@
 		                        class="fab fa-cc-amex fa-2x me-2"></i></a>
 		                    <a href="#!" type="submit" class="text-white"><i class="fab fa-cc-paypal fa-2x"></i></a>
 		
-		                    <form>
+		                    <form action="/payment/" method="post" enctype="application/x-www-form-urlencoded">
 		                      <div class="form-outline form-white mb-4 mt-2">
-		                        <input type="text" id="typeName" class="form-control form-control-lg" size="32"
+		                        <input type="text" id="typeName" name="cardholderName" class="form-control form-control-lg" size="32"
 		                          pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}" placeholder="Cardholder's Name" required/>
 		                        <label class="form-label" for="typeName">Cardholder's Name</label>
 		                      </div>
 		
 		                      <div class="form-outline form-white mb-4">
-		                        <input type="text" id="CardNumberText" class="form-control form-control-lg"
+		                        <input type="text" id="CardNumberText" name="cardNumber" class="form-control form-control-lg"
 		                          placeholder="1234 5678 9012 3456" minlength="16" maxlength="16"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" required/>
 		                        <label class="form-label" for="CardNumberText">Card Number</label>
+								<p class="help is-danger">
+									${getError(errors, 'cardNumber')}
+								</p>
 		                      </div>
 		
 		                      <div class="row mb-4">
@@ -221,12 +226,12 @@
 		                          <div class="form-outline form-white">
 			                          <div class="row mb-4">
 			                          	<div class="col-md-6">
-				                            <input type="number" id="typeExpM" class="form-control form-control-lg"
+				                            <input type="number" name="expirationMM" id="typeExpM" class="form-control form-control-lg"
 				                              placeholder="MM" min="01" max="12" required/>
 				                            <label class="form-label" for="typeExp">Expiration</label>
 			                            </div>
 			                            <div class="col-md-6">
-				                            <input type="number" id="typeExpY" class="form-control form-control-lg"
+				                            <input type="number" name="expirationYYYY" id="typeExpY" class="form-control form-control-lg"
 				                              placeholder="YYYY" min="2015" max="2032" required/>
 			                          	</div>
 			                          </div>
@@ -234,7 +239,7 @@
 		                        </div>
 		                        <div class="col-md-3">
 		                          <div class="form-outline form-white">
-		                            <input type="password" id="typeCVVText" class="form-control form-control-lg" 
+		                            <input type="password" id="typeCVVText" name="cvv" class="form-control form-control-lg" 
 		                              placeholder="&#9679;&#9679;&#9679;" size="1" minlength="3" maxlength="3" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" required/>
 		                            <label class="form-label" for="typeCVVText">Cvv</label>
 		                          </div>
@@ -258,9 +263,9 @@
 		                      <p class="mb-2">$223.00</p>
 		                    </div>
 		
-		                    <button type="submit" id="CheckoutButton" class="btn btn-info btn-block btn-lg">
+		                    <input type="submit" id="CheckoutButton" class="btn btn-info btn-block btn-lg">
 		                      <div class="d-flex justify-content-between">
-								<a href="signup.html">
+								<!-- <a href="signup.html"> -->
 		                        Checkout <i class="fas fa-long-arrow-alt-right ms-2"></i>
 								</a>
 		                      </div>

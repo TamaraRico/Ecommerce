@@ -11,9 +11,23 @@ var urlencodedParser = bodyParser.urlencoded({ extended: true })
 var jsonParser = bodyParser.json()
 
 
-router.get("/", function(request, response, next){
-	response.send('List all Data');
+router.get("/sign_up_user", function(request, response, next){
+	// response.send('List all Data');
+  response.sendFile(__dirname + '/signup.html');
 });
+
+/*
+router.get('/home', function(request, response) {
+	// If the user is loggedin
+	if (request.session.loggedin) {
+		// Output username
+		response.send('Welcome back, ' + request.session.username + '!');
+	} else {
+		// Not logged in
+		response.send('Please login to view this page!');
+	}
+	response.end();
+});*/
 
 router.post("/sign_up_user", 
     body('name').notEmpty(), 
@@ -28,10 +42,10 @@ router.post("/sign_up_user",
         /*  response.send("<script>alert(\"your alert message\"); window.location.href = \"../singup.html\"; </script>");*/
         /*  response.render("signup", { title: 'Error', message: 'hola' }); */      
         /*  request.flash('message', errors[0]);
-		response.redirect('/sign_up_user'); */
+		        response.redirect('/sign_up_user'); */
         console.log('erros:', errors);
-/*         console.log(response.sendStatus(400)) 
- */       //return response.status(400).json({ errors: errors.array() });
+        /*  console.log(response.sendStatus(400)) */       
+        /*  return response.status(400).json({ errors: errors.array() });   */
     }else{
         console.log('Got body:', request.body);
 
@@ -39,15 +53,30 @@ router.post("/sign_up_user",
         var email = request.body.email;
         var password = request.body.password;
 
-        const encryptedPassword = await bcrypt.hash(password, saltRounds)
+        if (name && password) {
+            database.query('SELECT * FROM usuarios WHERE nombre = ? AND password = ?', [name, password], async function(error, results, fields) {
+            if (error) throw error;
+            if (results.length > 0) {
+              const comparison = await bcrypt.compare(password, results[0].password)          
+              if(comparison){
+                request.session.loggedin = true;
+                request.session.username = username;
+                response.redirect('/home');
+              }
+            } else {
+              response.send('Incorrect Username and/or Password!');
+            }			
+            response.end();
+        })} else{
+          const encryptedPassword = await bcrypt.hash(password, saltRounds)
 
-        var query = `
-        INSERT INTO usuarios 
-        (nombre, correo, password) 
-        VALUES ("${name}", "${email}", "${encryptedPassword}")
-        `;
+          var query = `
+          INSERT INTO usuarios 
+          (nombre, correo, password) 
+          VALUES ("${name}", "${email}", "${encryptedPassword}")
+          `;
 
-        database.query(query, function(error, data){
+          database.query(query, function(error, data){
             if(error){
                 throw error;
             }else{
@@ -55,53 +84,6 @@ router.post("/sign_up_user",
             }
     	});
     }
-});
+}});
 
-/* router.get("/add", function(request, response, next){
-    response.render("sign_up_user", {title: 'Insert Data into MySQL', action: 'sign_up_user'});
-}); */
-
-/* const passport = require('passport');
-const { isLoggedIn } = require('../lib/auth');
-
-// SIGNUP
-router.get('/signup', (req, res) => {
-  res.render('auth/signup');
-});
-
-router.post('/signup', passport.authenticate('local.signup', {
-  successRedirect: '/profile',
-  failureRedirect: '/signup',
-  failureFlash: true
-}));
-
-// SINGIN
-router.get('/signin', (req, res) => {
-  res.render('auth/signin');
-});
-
-router.post('/signin', (req, res, next) => {
-  req.check('username', 'Username is Required').notEmpty();
-  req.check('password', 'Password is Required').notEmpty();
-  const errors = req.validationErrors();
-  if (errors.length > 0) {
-    req.flash('message', errors[0].msg);
-    res.redirect('/signin');
-  }
-  passport.authenticate('local.signin', {
-    successRedirect: '/profile',
-    failureRedirect: '/signin',
-    failureFlash: true
-  })(req, res, next);
-});
-
-router.get('/logout', (req, res) => {
-  req.logOut();
-  res.redirect('/');
-});
-
-router.get('/profile', isLoggedIn, (req, res) => {
-  res.render('profile');
-});
- */
 module.exports = router;
