@@ -18,10 +18,11 @@ app.use(express.static(path.join(__dirname, '/')));
 // Routes
 app.use(require('./routes/index'));
 app.use(require('./routes/login'));
+app.use(require('./routes/payInfo'));
 
 app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html');
-});
+}); 
 
 app.listen(app.get('port'), () => {
     console.log('Server is in port', app.get('port'));
