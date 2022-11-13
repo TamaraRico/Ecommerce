@@ -53,10 +53,8 @@ router.post("/sign_up_user",
         var email = request.body.email;
         var password = request.body.password;
 
-        if (username && password) {
-          //pool.query('SELECT players.*, count(history.userId) AS gamesPlayed FROM players LEFT JOIN history ON history.userId=players.id WHERE email_address = ?',[email], async function (error, results, fields) {      
-
-          pool.query('SELECT * FROM usuarios WHERE nombre = ? AND password = ?', [name, password], async function(error, results, fields) {
+        if (name && password) {
+            database.query('SELECT * FROM usuarios WHERE nombre = ? AND password = ?', [name, password], async function(error, results, fields) {
             if (error) throw error;
             if (results.length > 0) {
               const comparison = await bcrypt.compare(password, results[0].password)          
