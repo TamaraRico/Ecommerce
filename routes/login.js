@@ -37,14 +37,13 @@ router.post("/log_in",
             }else{
                 bcrypt.compare(password, hash[0].password, function(err, result) {
                     if (result) {
-                        const loc = document.location;
                         console.log('Contraseña correcta');
-                        loc.pathname = "index";
+                        response.writeHead(301, {'Location' : `http://localhost:4000/index.html`}).end(); //Con esta linea se redirecciona
                    }else{
                         console.log('Contraseña incorrecta');
                    }
                 })
-                console.log(response.sendStatus(200)) 
+                //console.log(response.sendStatus(200)) 
             }
     	});
     }
