@@ -15,7 +15,8 @@ router.get("/", function(request, response, next){
 	response.send('List all Data');
 });
 
-router.post("/log_in",  
+router.post("/sign_up_user", 
+    body('name').notEmpty(), 
     body('email').isEmail(), 
     body('password').isLength({min:8}), 
     jsonParser, async function(request, response, next){
@@ -26,24 +27,22 @@ router.post("/log_in",
     }else{
         console.log('Got body:', request.body);
 
+        var name = request.body.name;
         var email = request.body.email;
         var password = request.body.password;
 
-        var query = `SELECT password FROM usuarios where correo = "${email}"`;
+        const encryptedPassword = await bcrypt.hash(password, saltRounds)
 
-        database.query(query, function(error, hash){
+        var query = `
+        INSERT INTO usuarios 
+        (nombre, correo, password) 
+        VALUES ("${name}", "${email}", "${encryptedPassword}")
+        `;
+
+        database.query(query, function(error, data){
             if(error){
                 throw error;
             }else{
-                bcrypt.compare(password, hash[0].password, function(err, result) {
-                    if (result) {
-                        const loc = document.location;
-                        console.log('Contraseña correcta');
-                        loc.pathname = "index";
-                   }else{
-                        console.log('Contraseña incorrecta');
-                   }
-                })
                 console.log(response.sendStatus(200)) 
             }
     	});
