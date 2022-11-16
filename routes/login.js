@@ -39,11 +39,11 @@ router.post("/log_in",
                     if (result) {
                         console.log('Contraseña correcta');
                         response.writeHead(301, {'Location' : `http://localhost:4000/index.html`}).end(); //Con esta linea se redirecciona
-                   }else{
+                    }else{
+                        response.writeHead(301, {'Location' : `http://localhost:4000/login.html`}).end(); //Con esta linea se redirecciona
                         console.log('Contraseña incorrecta');
-                   }
+                    }
                 })
-                //console.log(response.sendStatus(200)) 
             }
     	});
     }
