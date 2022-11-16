@@ -43,7 +43,7 @@ router.post("/sign_up_user",
             if(error){
                 throw error;
             }else{
-                console.log(response.sendStatus(200)) 
+                response.writeHead(301, {'Location' : `http://localhost:4000/login.html`}).end(); //Con esta linea se redirecciona
             }
     	});
     }
