@@ -15,7 +15,7 @@ router.get("/payment", function(request, response, next){
 
 router.post("/payment", 
     body('cardholderName').notEmpty().withMessage("El nombre no puede estar vacio"), 
-    body('cardNumber').isLength({min:17}).withMessage("El numero de tarjeta es invalido"), 
+    body('cardNumber').isLength({min:16}).withMessage("El numero de tarjeta es invalido"), 
     body('expirationMM').isLength({min:2}),
     body('expirationYYYY').isLength({min:4}), 
     body('cvv').isLength({min:3}),
@@ -45,8 +45,7 @@ router.post("/payment",
                 console.log('erros:', error);
                 throw error;
             }else{
-                console.log(response.sendStatus(200)) 
-                return ''
+                response.writeHead(301, {'Location' : `http://localhost:4000/index.html`}).end(); //Con esta linea se redirecciona 
             }
     	});
     }

@@ -11,79 +11,49 @@ var urlencodedParser = bodyParser.urlencoded({ extended: true })
 var jsonParser = bodyParser.json()
 
 
-router.get("/sign_up_user", function(request, response, next){
-	// response.send('List all Data');
-  response.sendFile(__dirname + '/signup.html');
+router.get("/", function(request, response, next){
+	response.send('List all Data');
 });
 
-/*
-router.get('/home', function(request, response) {
-	// If the user is loggedin
-	if (request.session.loggedin) {
-		// Output username
-		response.send('Welcome back, ' + request.session.username + '!');
-	} else {
-		// Not logged in
-		response.send('Please login to view this page!');
-	}
-	response.end();
-});*/
-
-router.post("/sign_up_user", 
-    body('name').notEmpty(), 
+router.post("/log_in",  
     body('email').isEmail(), 
     body('password').isLength({min:8}), 
     jsonParser, async function(request, response, next){
 	
     const errors = validationResult(request);
     if (!errors.isEmpty()) {
-        /*  response.send("<p>Need numerical values.</p>"); */
-        /*  response.send(`password: incorrect password`);  */
-        /*  response.send("<script>alert(\"your alert message\"); window.location.href = \"../singup.html\"; </script>");*/
-        /*  response.render("signup", { title: 'Error', message: 'hola' }); */      
-        /*  request.flash('message', errors[0]);
-		        response.redirect('/sign_up_user'); */
         console.log('erros:', errors);
-        /*  console.log(response.sendStatus(400)) */       
-        /*  return response.status(400).json({ errors: errors.array() });   */
     }else{
         console.log('Got body:', request.body);
 
-        var name = request.body.name;
         var email = request.body.email;
         var password = request.body.password;
 
-        if (name && password) {
-            database.query('SELECT * FROM usuarios WHERE nombre = ? AND password = ?', [name, password], async function(error, results, fields) {
-            if (error) throw error;
-            if (results.length > 0) {
-              const comparison = await bcrypt.compare(password, results[0].password)          
-              if(comparison){
-                request.session.loggedin = true;
-                request.session.username = username;
-                response.redirect('/home');
-              }
-            } else {
-              response.send('Incorrect Username and/or Password!');
-            }			
-            response.end();
-        })} else{
-          const encryptedPassword = await bcrypt.hash(password, saltRounds)
+        var query = `SELECT password FROM usuarios where correo = "${email}"`;
+        var queryLogin = `UPDATE usuarios SET sesion = true WHERE correo = "${email}"`;
 
-          var query = `
-          INSERT INTO usuarios 
-          (nombre, correo, password) 
-          VALUES ("${name}", "${email}", "${encryptedPassword}")
-          `;
-
-          database.query(query, function(error, data){
+        database.query(query, function(error, hash){
             if(error){
                 throw error;
             }else{
-                console.log(response.sendStatus(200)) 
+                bcrypt.compare(password, hash[0].password, function(err, result) {
+                    if (result) {
+                        console.log('Contraseña correcta');
+                        database.query(queryLogin, function(error, data){
+                            if(error){
+                                throw error;
+                            }else{
+                                response.writeHead(301, {'Location' : `http://localhost:4000/index.html`}).end(); //Con esta linea se redirecciona
+                            }
+                        });
+                    }else{
+                        response.writeHead(301, {'Location' : `http://localhost:4000/login.html`}).end(); //Con esta linea se redirecciona
+                        console.log('Contraseña incorrecta');
+                    }
+                })
             }
     	});
     }
-}});
+});
 
 module.exports = router;

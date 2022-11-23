@@ -18,8 +18,6 @@
         <link href="css/carrito.css" rel="stylesheet" />
         <!-- Icons -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-
-		<script type = "text/javascript" src = "./routes/errores.js js"></script>
     </head>
     <body>
         <!-- Navigation-->
@@ -31,6 +29,7 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                         <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
                         <li class="nav-item"><a class="nav-link" href="sobre-nosotros.html">Sobre nosotros</a></li>
+						<li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Albums</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -45,7 +44,7 @@
                         <button class="btn btn-outline-dark" type="submit">
                             <i class="bi-cart-fill me-1"></i>
                             Carrito
-                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                            <span class="badge bg-dark text-white ms-1 rounded-pill">4</span>
                         </button>
                     </form>
                 </div>
@@ -83,17 +82,17 @@
 		                      <div class="d-flex flex-row align-items-center">
 		                        <div>
 		                          <img
-		                            src="./img/albums/bts.jpg"
+		                            src="./img/albums/tbhc.png"
 		                            class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
 		                        </div>
 		                        <div class="ms-3">
-		                          <h5 class="fw-bolder">MAP OF THE SOUL:7 - BTS</h5>
+		                          <h5 class="fw-bolder">Tranquility Base Hotel & Casino - Arctic Monkeys</h5>
 		                          <p class="small mb-0">CD</p>
 		                        </div>
 		                      </div>
 		                      <div class="d-flex flex-row align-items-center">
 		                        <div style="width: 50px;">
-		                          <h5 class="fw-normal mb-0">2</h5>
+		                          <h5 class="fw-normal mb-0">1</h5>
 		                        </div>
 		                        <div style="width: 80px;">
 		                          <h5 class="mb-0">$40</h5>
@@ -216,9 +215,6 @@
 		                        <input type="text" id="CardNumberText" name="cardNumber" class="form-control form-control-lg"
 		                          placeholder="1234 5678 9012 3456" minlength="16" maxlength="16"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" required/>
 		                        <label class="form-label" for="CardNumberText">Card Number</label>
-								<p class="help is-danger">
-									${getError(errors, 'cardNumber')}
-								</p>
 		                      </div>
 		
 		                      <div class="row mb-4">
@@ -226,12 +222,12 @@
 		                          <div class="form-outline form-white">
 			                          <div class="row mb-4">
 			                          	<div class="col-md-6">
-				                            <input type="number" name="expirationMM" id="typeExpM" class="form-control form-control-lg"
+				                            <input type="number" id="typeExpM" name="expirationMM" class="form-control form-control-lg"
 				                              placeholder="MM" min="01" max="12" required/>
 				                            <label class="form-label" for="typeExp">Expiration</label>
 			                            </div>
 			                            <div class="col-md-6">
-				                            <input type="number" name="expirationYYYY" id="typeExpY" class="form-control form-control-lg"
+				                            <input type="number" id="typeExpY" name="expirationYYYY" class="form-control form-control-lg"
 				                              placeholder="YYYY" min="2015" max="2032" required/>
 			                          	</div>
 			                          </div>
@@ -263,11 +259,11 @@
 		                      <p class="mb-2">$223.00</p>
 		                    </div>
 		
-		                    <input type="submit" id="CheckoutButton" class="btn btn-info btn-block btn-lg">
+		                    <button type="submit" id="CheckoutButton" class="btn btn-info btn-block btn-lg">
 		                      <div class="d-flex justify-content-between">
-								<!-- <a href="signup.html"> -->
+								<!--<a href="signup.html">-->
 		                        Checkout <i class="fas fa-long-arrow-alt-right ms-2"></i>
-								</a>
+								<!--</a>-->
 		                      </div>
 		                    </button>
 

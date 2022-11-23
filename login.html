@@ -25,6 +25,7 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                         <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
                         <li class="nav-item"><a class="nav-link" href="sobre-nosotros.html">Sobre nosotros</a></li>
+                        <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Albums</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -52,7 +53,7 @@
       aria-controls="pills-login" aria-selected="true">Login</a>
   </li>
   <li class="nav-item" role="presentation">
-    <a class="nav-link" id="tab-register" data-mdb-toggle="pill" href="#pills-register" role="tab"
+    <a class="nav-link" id="tab-register" data-mdb-toggle="pill" href="signup.html" role="tab"
       aria-controls="pills-register" aria-selected="false">Register</a>
   </li>
 </ul>
@@ -61,16 +62,16 @@
 <!-- Pills content -->
 <div class="tab-content">
   <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
-    <form>
+    <form action="/log_in/" method="post" enctype="application/x-www-form-urlencoded">
       <!-- Email input -->
       <div class="form-outline mb-4">
-        <input type="email" id="loginName" class="form-control" />
+        <input type="email" id="email" name="email" class="form-control" />
         <label class="form-label" for="loginName">Email<label>
       </div>
 
       <!-- Password input -->
       <div class="form-outline mb-4">
-        <input type="password" id="loginPassword" class="form-control" />
+        <input type="password" id="password" name="password" class="form-control" />
         <label class="form-label" for="loginPassword">Password</label>
       </div>
 
@@ -95,7 +96,7 @@
 
       <!-- Register buttons -->
       <div class="text-center">
-        <p>Not a member? <a href="#!">Register</a></p>
+        <p>Not a member? <a href="signup.html">Register</a></p>
       </div>
     </form>
   </div>
