@@ -30,6 +30,7 @@ router.post("/log_in",
         var password = request.body.password;
 
         var query = `SELECT password FROM usuarios where correo = "${email}"`;
+        var queryLogin = `UPDATE usuarios SET sesion = true WHERE correo = "${email}"`;
 
         database.query(query, function(error, hash){
             if(error){
@@ -38,7 +39,13 @@ router.post("/log_in",
                 bcrypt.compare(password, hash[0].password, function(err, result) {
                     if (result) {
                         console.log('Contraseña correcta');
-                        response.writeHead(301, {'Location' : `http://localhost:4000/index.html`}).end(); //Con esta linea se redirecciona
+                        database.query(queryLogin, function(error, data){
+                            if(error){
+                                throw error;
+                            }else{
+                                response.writeHead(301, {'Location' : `http://localhost:4000/index.html`}).end(); //Con esta linea se redirecciona
+                            }
+                        });
                     }else{
                         response.writeHead(301, {'Location' : `http://localhost:4000/login.html`}).end(); //Con esta linea se redirecciona
                         console.log('Contraseña incorrecta');

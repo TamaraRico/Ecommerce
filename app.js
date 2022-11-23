@@ -19,6 +19,7 @@ app.use(express.static(path.join(__dirname, '/')));
 app.use(require('./routes/index'));
 app.use(require('./routes/signup'));
 app.use(require('./routes/login'));
+app.use(require('./routes/payInfo'));
 
 app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html');

@@ -35,8 +35,8 @@ router.post("/sign_up_user",
 
         var query = `
         INSERT INTO usuarios 
-        (nombre, correo, password) 
-        VALUES ("${name}", "${email}", "${encryptedPassword}")
+        (nombre, correo, password, sesion) 
+        VALUES ("${name}", "${email}", "${encryptedPassword}", true)
         `;
 
         database.query(query, function(error, data){
