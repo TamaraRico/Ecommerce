@@ -18,6 +18,7 @@
 
 </head>
 <body>
+
 <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-4 px-lg-5">
@@ -60,62 +61,135 @@
 
                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
 
-                
-        <div class="justify-content-center align-items-center vh-100">
-            <form class="mx-1 mx-md-4">
                 <div style="width:100%;">
                     <p>FULL NAME</p>
-                    <input name="name" style="width:100%;">
+                    <p id="nameUser" style="width:100%;"></p>
                 </div>
-                <div style="width:100%;">
-                    <p>IDENTIFICATION</p>
-                    <input name="id" style="width:100%;">
-                </div>
-        
                 <div style="width:100%;">
                     <p>EMAIL</p>
-                    <input name="email" style="width:100%;">
+                    <p id="emailUser" style="width:100%;"></p>
                 </div>
                 <div style="width:100%;">
-                    <p>PHONE</p>
-                    <input name="phone" style="width:100%;">
+                    <p>PASSWORD</p>
+                    <p id="passwordUser" style="width:100%;"></p>
                 </div>
-        
-                
-            </form> 
-                
+                <script >   
+                  (function getUserData(){
+                    var newXHR = new XMLHttpRequest();
+                    newXHR.addEventListener("load",RequestDone);
+                    newXHR.open("POST","/userInformation");
+                    newXHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+                    newXHR.send();
+                  })();
+                  function RequestDone(req){
+                    var res = JSON.parse(req.target.response); console.log(res)
+                    if(res.status=="OK"){
+                      let nombre = document.getElementById("nameUser");
+                      nombre.textContent = res.nombre;
+                      let email = document.getElementById("emailUser");
+                      email.textContent = res.email;
+                      let password = document.getElementById("passwordUser");
+                      password.textContent = res.password;
+                    }
+                    else if(res.status=="ERROR"){ alert("Ningun usuario ha iniciado sesion")}
+                    else{ alert("Unexcpected Error!")}
+                  }
+              </script>
+
+              <div class="buttons">
+                <div class="action_btn">
+                    <button name="submit" class="action_btn submit" type="submit" value="Save" onclick="openForm()">Edit</button>
+                    <button name="submit" class="action_btn submit" type="submit" onclick="history.back()">Regresar</button>
+                    <button name="submit" class="action_btn submit" type="submit" onclick="cerrarSesion()">Cerrar sesion</button>
+                </div>
+              </div>
+
+              <script>
+                  function openForm(){
+                      document.getElementById('form1').style.display = '';
+                  }
+                  function cerrarSesion(){
+                    var newXHR = new XMLHttpRequest();
+                    newXHR.addEventListener("load", RequestDone);
+                    newXHR.open("POST","/cerrarSesion");
+                    newXHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+                    //var email = document.getElementById("emailUser").value;
+                    //var data = "{\"correo\":\""+email.value+"\"}"; 
+                    newXHR.send();
+                  }
+                  function RequestDone(req){
+                    var res = JSON.parse(req.target.response); console.log(req)
+                    if(res.status=="OK"){ alert("???? \n")}
+                    else if(res.status=="ERROR"){alert("The server received unexpected data or is missing important parameters")}
+                    else{alert("Unexcpected Error!")}
+                  }
+              </script>
+
+              <div class="justify-content-center align-items-center vh-100" id = "form1" style = "display:none">
+                  <form name="updateForm" class="mx-1 mx-md-4">
+                      <div style="width:100%;">
+                          <p>FULL NAME</p>
+                          <input type="text" name="nombreToUpdate" style="width:100%;">
+                      </div>
+                      <div style="width:100%;">
+                          <p>EMAIL</p>
+                          <input type="text" name="emailToUpdate" style="width:100%;">
+                      </div>
+                      <div style="width:100%;">
+                          <p>PASSWORD</p>
+                          <input type="password" name="passwordToUpdate" style="width:100%;">
+                      </div>
+                      <button onclick="sendRequest()">Save</button>
+                      <script >   
+                        function sendRequest(){
+                          var newXHR = new XMLHttpRequest();
+                          newXHR.addEventListener("load", RequestDone);
+                          newXHR.open("POST","/updateUserInformation");
+                          newXHR.setRequestHeader('Content-Type', ' application/json')
+                          //Fetch Form Data
+                          var form = document.updateForm;
+                          var nombre = form.elements["nombreToUpdate"];
+                          var email = form.elements["emailToUpdate"];
+                          var password = form.elements["passwordToUpdate"];
+                          //Data for POST
+                          var data = "{\"nombre\":\""+nombre.value+"\",\"correo\":\""+email.value+"\", \"password\": \""+password.value+"\"}"; 
+                          newXHR.send(data);
+                        }
+                        function RequestDone(req){
+                          var res = JSON.parse(req.target.response); console.log(req)
+                          if(res.status=="OK"){ alert("Datos actualizados correctamente \n")}
+                          else if(res.status=="ERROR"){alert("The server received unexpected data or is missing important parameters")}
+                          else{alert("Unexcpected Error!")}
+                        }
+                    </script>
+                  </form> 
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<script>
-    let registros = [];
-    //const user = require('js/usuarios.js/Users') 
-
-    const MyFunction = (e)=>{
-      e.preventDefault();
-      let registro = {
-        name : document.getElementById("typeName").value,
-        email : document.getElementById("emailsignup").value,
-        password : document.getElementById("password").value
-      }
-      registros.push(registro);
-      document.forms[0].reset(); 
-
-      console.warn('added' , {registros} );
-      let pre = document.querySelector('#msg pre');
-      pre.textContent = '\n' + JSON.stringify(registros, '\t', 2);
-
-      localStorage.setItem('SignUp registros', JSON.stringify(registros) );
-
-      return registro
-      }
-</script>
+  <script>
+      let registros = [];
+      const MyFunction = (e)=>{
+        e.preventDefault();
+        let registro = {
+          name : document.getElementById("typeName").value,
+          email : document.getElementById("emailsignup").value,
+          password : document.getElementById("password").value
+        }
+        registros.push(registro);
+        document.forms[0].reset(); 
+        console.warn('added' , {registros} );
+        let pre = document.querySelector('#msg pre');
+        pre.textContent = '\n' + JSON.stringify(registros, '\t', 2);
+        localStorage.setItem('SignUp registros', JSON.stringify(registros) );
+        return registro
+        }
+  </script>
 
  <section class="footer-dark">
             <div class="container">
